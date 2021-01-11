@@ -93,7 +93,7 @@ public class MainActivity2 extends AppCompatActivity {
          Intent intentToGallery=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
          startActivityForResult(intentToGallery,2);
         }
-}
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -140,9 +140,9 @@ public class MainActivity2 extends AppCompatActivity {
             String place = placeEditText.getText().toString();
             String note = noteMultilineText.getText().toString();
             if(!date.matches("")&& !place.matches("") && !note.matches("")) {
-
+                try{
                 database = this.openOrCreateDatabase("Landscapes", MODE_PRIVATE, null);
-                database.execSQL("CREATE TABLE IF NOT EXISTS landscapes (id INTEGER PRIMARY KEY,image BLOB,date VARCHAR,place VARCHAR,note VARCHAR) ");
+                database.execSQL("CREATE TABLE IF NOT EXISTS landscapes (id INTEGER PRIMARY KEY,image BLOB,date VARCHAR,place VARCHAR,note VARCHAR)");
 
                 String sqlString = "INSERT INTO landscapes (image,date,place,note) VALUES (?,?,?,?)";
                 SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
@@ -155,6 +155,9 @@ public class MainActivity2 extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity2.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
             } else{
                 Intent intent = new Intent(MainActivity2.this, MainActivity.class);
